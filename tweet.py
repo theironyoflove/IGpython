@@ -5,13 +5,15 @@ except ImportError:
     import simplejson as json
 
 # Import the necessary methods from "twitter" library
+from flask import Flask, render_template
+
 from twitter import Twitter, OAuth, TwitterHTTPError, TwitterStream
 
 # Variables that contains the user credentials to access Twitter API
-ACCESS_TOKEN = '2358407394-Wl4egd8rj3t4kAKaiOznryrxN9RpGxeJiXz0ndK'
-ACCESS_SECRET = 'WaKMW0djaOtQbB5uHT2HTjTsu8AXz67I7hAKg6u3hWCjs'
-CONSUMER_KEY = 'Qpa6J5a2pQUJLQRqEr3HLaCvl'
-CONSUMER_SECRET = 'laNpEPNsKNuKZ3PueZLZsNXSR7N6dWuDKtYl3mRbuwTGTkZfJO'
+ACCESS_TOKEN = '754717338-IptXqleFsW1TVH6VyNcbkkBT3EGwMiQpsMhM2GkV'
+ACCESS_SECRET = 'WXLBUr3rssVVc1oAaEUPvfgynZIUj4alDGzDBFOZvWgSX'
+CONSUMER_KEY = '9XKS06FT6kqW05qbYgWBfj0lg'
+CONSUMER_SECRET = 'ksyHzRnvUhGV1j7TYfzlifLpqhCPBf9kZmVAy4gUrzPKRm0uPY'
 
 oauth = OAuth(ACCESS_TOKEN, ACCESS_SECRET, CONSUMER_KEY, CONSUMER_SECRET)
 
@@ -25,27 +27,16 @@ iterator = twitter_stream.statuses.sample()
 # Here we set it to stop after getting 1000 tweets.
 # You don't have to set it to stop, but can continue running
 # the Twitter API to collect data for days or even longer.
-tweet_count = 3
-latitude =[]
-longitude = []
+tweet_count = 1000
 for tweet in iterator:
-    # print tweet_count
-
+    tweet_count -= 1
     # Twitter Python Tool wraps the data returned by Twitter
     # as a TwitterDictResponse object.
     # We convert it back to the JSON format to print/score
-    # print json.dumps(tweet)
-    # print tweet['created_at']
-    if 'coordinates' in tweet and tweet['coordinates'] != None:
-        print tweet['coordinates']
-        latitude.append(tweet['coordinates'][u'coordinates'][0])
-        longitude.append(tweet['coordinates'][u'coordinates'][1])
-    #   print tweet['user']['coordinates']
-        tweet_count -= 1
+    print json.dumps(tweet)
+
     # The command below will do pretty printing for JSON data, try it out
     # print json.dumps(tweet, indent=4)
 
     if tweet_count <= 0:
-      break
-print latitude
-print longitude
+        break
